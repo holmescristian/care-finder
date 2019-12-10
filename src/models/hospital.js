@@ -12,7 +12,7 @@ const definition = new Schema ({
     'phone_number': { type: String },
     'hospital_type': { type: String },
     'hospital_ownership': { type: String },
-    'emergency_services': { type: Boolean },
+    'emergency_services': { type: String },
     'human_address': { type: String },
     'latitude': { type: String },
     'longitude': { type: String }

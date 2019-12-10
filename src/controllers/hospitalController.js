@@ -96,13 +96,22 @@ exports.getByOwner = async ( req, res ) => {
 };
 
 exports.getByEmergency = async ( req, res ) => {
-    const hospitals = await Hospital.find({
-        emergency_services: {
-            $eq: req.params.emergencyServices,
-            $options: 'i'
-        }
-    }).exec();
-    res.json({ data: hospitals})
+    if (req.params.emergencyServices === "false"){
+        const hospitals = await Hospital.find({
+            emergency_services: {
+                $regex: 'false'
+            }
+        }).exec();
+        res.json({ data: hospitals})
+    } else if (req.params.emergencyServices === "true") {
+        const hospitals = await Hospital.find({
+            emergency_services: {
+                $regex: 'true',
+                $options: 'i'
+            }
+        }).exec();
+        res.json({ data: hospitals})
+    }
 };
 
 // Delete methods
@@ -171,7 +180,7 @@ exports.deleteByOwner = async ( req, res ) => {
 
 exports.deleteByEmergency = async ( req, res ) => {
     await Hospital.deleteMany({
-        emergency_services: { $eq: req.params.emergencyServices, $options: 'i' }
+        emergency_services: { $eq: req.params.emergencyServices }
     }).exec();
     res.status(204).send()
 };
